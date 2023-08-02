@@ -1,0 +1,259 @@
+openapi: '3.0.0'
+info:
+  title: STUDENT REGISTRATION FORM
+  version: '1.0'
+servers:
+  - url: http://localhost:8087
+
+
+paths:
+  /StudentRegister:
+    post:
+      summary: Create a new student
+      tags:
+        - student
+      description: studentcreated
+      operationId: studentcreated
+      responses:
+        '201':
+          description: studentCreate Sucessfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: studentCreateFailure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '409':
+          description: student already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        description: studentCreate
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/student"
+        required: true
+
+  /GetAllStudents:
+    get:
+      summary: Get a list of students
+      tags:
+        - student
+      description:  Getstudent
+      operationId: Getstudent
+      responses:
+        '201':
+          description: Getstudent Sucessfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/student'
+        '400':
+          description: Getstudent UserCreateFailure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '409':
+          description: student already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /GetStudent/{Id}:
+    get:
+      summary: Get a student by Id
+      tags:
+        - student
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+
+      # (we can write in this way also..)
+      # - name: Id
+      #   in: query
+      #   description: Id
+      #   schema: 
+      #     type: string
+      #   required: true
+      #  - name: rollno
+      #     in: query
+      #     required: false
+      #     schema:
+      #       type: string
+
+      description: get student
+      operationId: get student
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student'
+        '400':
+          description: object invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+        '409':
+          description: student already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /UpdateStudent/{Id}:
+    put:
+      summary: Update a student by Id
+      tags:
+        - student
+      description:  Updatestudent
+      operationId: Updatestudent
+      parameters:
+        - $ref: "#/components/parameters/idParam"
+
+        # (we can write in this way also..)
+        # - name: Id
+        #   in: query
+        #   description: Id
+        #   required: true
+        #   schema:
+        #     type: string
+      responses:
+        '201':
+          description: UpdatestudentSucess
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: UpdatestudentFailure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '409':
+          description: student already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      requestBody:
+        description: Updatestudent
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/studentUpdate"
+        required: true
+
+  /DeleteStudent/{Id}:
+    delete:
+      summary: Delete a student by Id
+      tags:
+        - student
+      description:  deletestudent
+      operationId: deletestudent
+      parameters: 
+        - $ref: "#/components/parameters/idParam"
+
+      # (we can write in this way also..)
+      #   - name: Id
+      #     in: query
+      #     description: To detele particular student
+      #     required: true
+      #     schema:
+      #       type: string
+
+      responses:
+        '201':
+          description:  DeletestudentSucessFully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: DeletestudentFailure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '409':
+          description: device already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+            
+
+components:
+  securitySchemes:
+    bearerAuth: 
+      type: http
+      scheme: bearer
+  parameters:
+    idParam:
+      name: Id
+      in: path
+      required: true
+      schema:
+        type: string
+    
+
+  schemas:
+    ApiResponse:
+      type: object
+      description:  ResponseInStatusCode
+      properties:
+        code: 
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      required: 
+        - message
+            
+    student:
+      type: object
+      properties:
+        Id: 
+          type: string
+        rollnumber:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        isExist:
+          type: boolean
+      required:
+      - Id
+      - rollnumber
+      - email
+      - password
+
+    studentUpdate:
+      type: object
+      properties:
+        rollnumber:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+

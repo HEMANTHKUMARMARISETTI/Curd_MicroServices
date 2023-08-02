@@ -1,0 +1,37 @@
+{
+    "auth1":[
+        {
+            "status": 400,
+            "body": {"message": "hiiiiiiii something went wrong"}
+        }
+    ],
+    "auth2":[
+        {
+            "status": 201,
+            "body": {"message": "updated student successfully"}
+        }
+    ],
+    "get":[
+        {
+            "status": 201
+        }
+    ],
+    "post":[
+        {
+            "status": 400,
+			"body": {"message": "student Already  exists"}
+        },
+        {
+            "status": 201,
+            "body": {"message": "Created student successfully"}
+        }
+    ],
+    "delete":[
+        {
+            
+            "status": 201,
+            "body": {"message": "delete student  Sucessfully"}
+
+        }
+    ]
+}
